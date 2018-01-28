@@ -38,7 +38,7 @@ def get_file_parameters():
     params['model_save_file_name'] = '%s.{epoch:03d}.h5' % "ResNet26"
     params['file_save_period'] = 2
     params['log_save_file_name'] = '%s_log.{epoch:03d}.npy' % "ResNet26"
-    params['data_file_path'] = "../data/dataset/dataset20180128.h5"
+    params['data_file_path'] = "../data/dataset/dataset20180129Partial.h5"
     return params
 
 def get_model_parameters():
@@ -61,6 +61,9 @@ def get_model_parameters():
     # ResNet164 |27(18)| -----     | 94.07     | -----     | 94.54     | ---(---)
     # ResNet1001| (111)| -----     | 92.39     | -----     | 95.08+-.14| ---(---)
     # ---------------------------------------------------------------------------
+
+    # structure 1: wide 26 layers
+    """
     params['model_structure'] = [
          [{'unit_type': 'std_conv', 'k': 7, 's': 2, 'f': 32, 'name': 'Input'}, 
           {'unit_type': 'max_pool', 'k': 3, 's': 2}], 
@@ -72,6 +75,23 @@ def get_model_parameters():
           {'unit_type': 'res_block', 'k': 3, 's': 1, 'force_conv': False, 'fs': [128, 128, 512], 'name': 'res_id'}], 
          [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [128, 128, 512], 'name': 'res_conv'}, 
           {'unit_type': 'res_block', 'k': 3, 's': 1, 'force_conv': False, 'fs': [128, 128, 512], 'name': 'res_id'}], 
+         [{'unit_type': 'bn'},
+          {'unit_type': 'activation', 'activation': 'relu'},
+          {'unit_type': 'global_avg_pool'}, 
+          {'unit_type': 'dense', 'num_units': params['num_output_classes'], 'activation': 'softmax', 'name': 'output_fc'}] 
+        ]
+    """
+    # structure 2: narrow 23 layers
+    params['model_structure'] = [
+         [{'unit_type': 'std_conv', 'k': 7, 's': 2, 'f': 32, 'name': 'Input'}, 
+          {'unit_type': 'max_pool', 'k': 3, 's': 2}], 
+         [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [8, 8, 32], 'name': 'res_conv'}, 
+          {'unit_type': 'res_block', 'k': 3, 's': 1, 'force_conv': False, 'fs': [8, 8, 32], 'name': 'res_id'}], 
+         [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [16, 16, 64], 'name': 'res_conv'}, 
+          {'unit_type': 'res_block', 'k': 3, 's': 1, 'force_conv': False, 'fs': [16, 16, 64], 'name': 'res_id'}], 
+         [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [32, 32, 128], 'name': 'res_conv'}, 
+          {'unit_type': 'res_block', 'k': 3, 's': 1, 'force_conv': False, 'fs': [32, 32, 128], 'name': 'res_id'}], 
+         [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [32, 32, 128], 'name': 'res_conv'}], 
          [{'unit_type': 'bn'},
           {'unit_type': 'activation', 'activation': 'relu'},
           {'unit_type': 'global_avg_pool'}, 
