@@ -2,42 +2,21 @@ import os
 
 def get_training_parameters():
     params = {}
-    params['epochs'] = 1
     params['data_augmentation'] = True
     params['batch_size'] = 32
+    params['shuffle'] = True
+    params['cached_training'] = True
+    params['training_verbose_option'] = 1
+    params['generator_option'] = 'standard' # 'standard' or 'sequence'
+    params['sequence_generator_workers'] = 4
 
     return params
-
-def learning_rate_schedule(epoch):
-    """Learning Rate Schedule
-
-    Learning rate is scheduled to be reduced after 80, 120, 160, 180 epochs.
-    Called automatically every epoch as part of callbacks during training.
-
-    # Arguments
-        epoch (int): The number of epochs
-
-    # Returns
-        lr (float32): learning rate
-    """
-    lr = 1e-3
-    if epoch > 180:
-        lr *= 0.5e-3
-    elif epoch > 160:
-        lr *= 1e-3
-    elif epoch > 120:
-        lr *= 1e-2
-    elif epoch > 80:
-        lr *= 1e-1
-    print('Learning rate: ', lr)
-    return lr
 
 def get_file_parameters():
     params = {}
     params['save_dir'] = os.path.join(os.getcwd(), 'saved_models')
-    params['model_save_file_name'] = '%s.{epoch:03d}.h5' % "ResNet26"
-    params['file_save_period'] = 2
-    params['log_save_file_name'] = '%s_log.{epoch:03d}.npy' % "ResNet26"
+    params['model_save_file_name'] = 'Test0131.{epoch:03d}.h5'
+    params['file_save_period'] = 1
     params['data_file_path'] = "../data/dataset/dataset20180129Partial.h5"
     return params
 
@@ -63,8 +42,9 @@ def get_model_parameters():
     # ---------------------------------------------------------------------------
 
     # structure 1: wide 26 layers
-    """
-    params['model_structure'] = [
+    
+    params['model_structure'] = {}
+    params['model_structure']['default'] = [
          [{'unit_type': 'std_conv', 'k': 7, 's': 2, 'f': 32, 'name': 'Input'}, 
           {'unit_type': 'max_pool', 'k': 3, 's': 2}], 
          [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [32, 32, 128], 'name': 'res_conv'}, 
@@ -80,9 +60,10 @@ def get_model_parameters():
           {'unit_type': 'global_avg_pool'}, 
           {'unit_type': 'dense', 'num_units': params['num_output_classes'], 'activation': 'softmax', 'name': 'output_fc'}] 
         ]
-    """
     # structure 2: narrow 23 layers
-    params['model_structure'] = [
+    
+    
+    params['model_structure']['Res23'] = [
          [{'unit_type': 'std_conv', 'k': 7, 's': 2, 'f': 32, 'name': 'Input'}, 
           {'unit_type': 'max_pool', 'k': 3, 's': 2}], 
          [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [8, 8, 32], 'name': 'res_conv'}, 
@@ -99,3 +80,29 @@ def get_model_parameters():
         ]
 
     return params
+
+
+def learning_rate_schedule(epoch):
+    """Learning Rate Schedule
+
+    Learning rate is scheduled to be reduced after 80, 120, 160, 180 epochs.
+    Called automatically every epoch as part of callbacks during training.
+
+    # Arguments
+        epoch (int): The number of epochs
+
+    # Returns
+        lr (float32): learning rate
+    """
+    lr = 1e-3
+    if epoch > 180:
+        lr *= 0.5e-3
+    elif epoch > 160:
+        lr *= 1e-3
+    elif epoch > 120:
+        lr *= 1e-2
+    elif epoch > 80:
+        lr *= 1e-1
+    print('Learning rate: ', lr)
+    return lr
+

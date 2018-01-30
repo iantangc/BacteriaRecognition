@@ -17,9 +17,9 @@ import os
 import sys
 import h5py
 
-import pydot
-import graphviz
-from IPython.display import SVG
+# import pydot
+# import graphviz
+# from IPython.display import SVG
 
 def composite_conv_layer(inputs,
                 num_filters=16,
