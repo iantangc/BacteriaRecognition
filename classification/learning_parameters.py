@@ -6,12 +6,12 @@ import numpy as np
 def get_training_parameters():
     params = {}
     params['data_augmentation'] = True
-    params['batch_size'] = 32
+    params['batch_size'] = 64
     params['shuffle'] = True
     params['training_verbose_option'] = 1
 
-    params['cached_training'] = False
-    params['generator_option'] = 'standard' # 'standard' or 'sequence'
+    params['cached_training'] = True
+    params['generator_option'] = 'sequence' # 'standard' or 'sequence'
     params['sequence_generator_workers'] = 4
 
     return params
@@ -45,15 +45,15 @@ def learning_rate_schedule(epoch):
 def get_file_parameters():
     params = {}
     params['save_dir'] = os.path.join(os.getcwd(), 'saved_models')
-    params['model_save_file_name'] = 'Test0131.{epoch:05d}.h5'
+    params['model_save_file_name'] = 'Wide0311.{epoch:05d}.h5'
     params['file_save_period'] = 1
 
     params['dataset_dir_path'] = "../data/dataset/"
     params['evaluation_save_file_name'] = os.path.join(params['dataset_dir_path'], "Eval_{date}.h5") 
     params['evaluation_save_date_format'] = "%Y%m%d_%H%M"
 
-    params['data_file_path'] = os.path.join(params['dataset_dir_path'], "dataset20180129Partial.h5")
-    params['full_data_file_path'] = os.path.join(params['dataset_dir_path'], "dataset20180129Full.h5")
+    params['data_file_path'] = os.path.join(params['dataset_dir_path'], "dataset20180213Partial.h5")
+    params['full_data_file_path'] = os.path.join(params['dataset_dir_path'], "dataset20180213Full.h5")
     return params
 
 def get_model_parameters():
