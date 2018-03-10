@@ -82,7 +82,7 @@ def get_model_parameters():
     params['optimizer'] = keras.optimizers.Adam(lr=learning_rate_schedule(0), amsgrad=True)
     
     params['model_structure'] = {}
-    params['model_structure']['default'] = [
+    params['model_structure']['Res23A'] = [
          [{'unit_type': 'std_conv', 'k': 7, 's': 2, 'f': 32, 'name': 'Input'}, 
           {'unit_type': 'max_pool', 'k': 3, 's': 2}], 
          [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [32, 32, 128], 'name': 'res_conv'}, 
@@ -101,7 +101,7 @@ def get_model_parameters():
     # structure 2: narrow 23 layers
     
     
-    params['model_structure']['Res23'] = [
+    params['model_structure']['Res23B'] = [
          [{'unit_type': 'std_conv', 'k': 7, 's': 2, 'f': 32, 'name': 'Input'}, 
           {'unit_type': 'max_pool', 'k': 3, 's': 2}], 
          [{'unit_type': 'res_block', 'k': 3, 's': 2, 'force_conv': False, 'fs': [8, 8, 32], 'name': 'res_conv'}, 
