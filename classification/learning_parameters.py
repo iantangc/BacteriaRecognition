@@ -11,7 +11,7 @@ def get_training_parameters():
     params['training_verbose_option'] = 1
 
     params['cached_training'] = True
-    params['generator_option'] = 'sequence' # 'standard' or 'sequence'
+    params['generator_option'] = 'standard' # 'standard' or 'sequence'
     params['sequence_generator_workers'] = 4
 
     return params
@@ -59,9 +59,9 @@ def get_file_parameters():
 def get_model_parameters():
     params = {}
     # Training parameters
-    
+
     params['input_shape'] = (224, 224, 3)
-    params['num_output_classes'] = 9
+    params['num_output_classes'] = 5
     # Model parameter
     # ----------------------------------------------------------------------------
     #           |      | 200-epoch | Orig Paper| 200-epoch | Orig Paper| sec/epoch
