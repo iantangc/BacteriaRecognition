@@ -1,0 +1,30 @@
+item {
+  id: 1
+  name: 'Lactobacillus'
+}
+
+item {
+  id: 2
+  name: 'Gardnerella'
+}
+
+item {
+  id: 3
+  name: 'Curved Rods'
+}
+
+item {
+  id: 4
+  name: 'Coccus'
+}
+
+item {
+  id: 5
+  name: 'Yeast'
+}
+
+item {
+  id: 6
+  name: 'Noise'
+}
+
