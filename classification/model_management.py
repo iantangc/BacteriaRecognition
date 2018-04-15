@@ -165,8 +165,8 @@ def evaluate_model_detail(model_file_name, full_evalution = False, group_by_file
         dim_y = model_parameters['input_shape'][1], dim_z = model_parameters['input_shape'][2], 
         n_classes = model_parameters['num_output_classes'])
 
-    # stage_texts = ['training', 'dev', 'testing']
-    stage_texts = ['dev', 'testing']
+    stage_texts = ['training', 'dev', 'testing']
+    # stage_texts = ['dev', 'testing']
     n_classes = model_parameters['num_output_classes']
 
     save_time = datetime.datetime.now()
@@ -186,7 +186,7 @@ def evaluate_model_detail(model_file_name, full_evalution = False, group_by_file
         stage_count_cross_table = np.zeros((0, n_classes, n_classes), dtype=int)
         stage_prob_label_cross_table = np.zeros((0, n_classes, n_classes), dtype=float)
         stage_prob_pred_cross_table = np.zeros((0, n_classes, n_classes), dtype=float)
-
+        
         predictions = model.predict_generator(generator = datagen.get_sequence_generator(stage_text, data_only = True, label_only = False, 
                                                               data_augmentation_enabled = False, shuffle = False, batch_size = batch_size, cached = False),
                                 workers = 1,
@@ -241,6 +241,7 @@ def evaluate_model_detail(model_file_name, full_evalution = False, group_by_file
                     print(prob_label_cross_table)
                     print("Probability of given prediction")
                     print(prob_pred_cross_table)
+                count_offset += label_count
         evaluation_file_interface.write_evaluation_results_to_file(stage_text, stage_table_text, stage_count_cross_table, stage_prob_label_cross_table, stage_prob_pred_cross_table)
     evaluation_file_interface.close_file()
     print("Evalution completed, all data written to " + evaluation_file_name)
